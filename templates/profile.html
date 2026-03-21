@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-wrapper">
+    <h2>내 프로필</h2>
+    <div class="profile-info">
+        <p><strong>아이디:</strong> {{ user.user_id }}</p>
+        <p><strong>이름:</strong> {{ user.user_name }}</p>
+    </div>
+</div>
+
+<style>
+.profile-wrapper {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+.profile-info p {
+    font-size: 18px;
+    line-height: 1.8;
+}
+.profile-info strong {
+    display: inline-block;
+    width: 80px;
+    color: #555;
+}
+</style>
+{% endblock %}

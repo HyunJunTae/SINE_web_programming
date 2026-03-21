@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초간단 회원제 댓글창</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="{{ url_for('index') }}">Guestbook</a></h1>
+            <nav>
+                {% if session.user_name %}
+                    <span>안녕하세요, {{ session.user_name }}님!</span>
+                    <a href="{{ url_for('profile') }}">내 프로필</a>
+                    <a href="{{ url_for('logout') }}">로그아웃</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">로그인</a>
+                    <a href="{{ url_for('register') }}">회원가입</a>
+                {% endif %}
+            </nav>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            <p>&copy; 2026 SINE Web Project</p>
+        </footer>
+    </div>
+</body>
+</html>
