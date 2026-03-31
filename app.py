@@ -1,10 +1,11 @@
+import os
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session, g
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'super_secret_key'  # 실제 배포 시에는 강력한 랜덤 키로 변경해야 합니다.
-DATABASE = 'database.db'
+app.secret_key = os.environ.get('SECRET_KEY', 'super_secret_key')  # 배포 시에는 PythonAnywhere 환경 변수로 설정하세요.
+DATABASE = os.path.join(app.root_path, 'database.db')
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -129,7 +130,7 @@ def profile():
     return render_template('profile.html', user=user)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
 
 """
     

@@ -280,6 +280,21 @@
 
 3. 배포 과정
     1. 서버 배포
+        - PythonAnywhere 선택
+            - Python 웹 애플리케이션 배포에 특화되어 있어 Flask 프로젝트를 쉽게 배포할 수 있음.
+            - SQLite를 그대로 사용할 수 있어 SQL을 그대로 유지한 채로 프로젝트를 배포할 수 있음.
+        
+        - 기존 프로젝트에서 서버 배포를 위해 수정이 필요한 부분 탐색 및 수정
+            - app.py
+                - DATABASE 경로 변환. PythonAnywhere 에서는 작업 디렉터리가 다를 수 있음.
+                    DATABASE = 'database.db' 
+                    → DATABASE = os.path.join(app.root_path, 'database.db')
+                - SECRET_KEY를 환경변수 기반으로 변경
+                  배포 시에 웹 앱 환경변수에서 설정할 수 있도록 함
+                    SECRET_KEY = os.environ.get('SECRET_KEY')
+
+                
+                
 
 
     2. 프록시
