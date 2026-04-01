@@ -40,16 +40,19 @@ def index():
         db.commit()
         return redirect(url_for('index'))
 
-    # GET 요청: 댓글 목록 조회
-    cursor.execute('''
-        SELECT Comment.content, Comment.timestamp, User.user_name 
-        FROM Comment 
-        JOIN User ON Comment.user_id = User.id
-        ORDER BY Comment.timestamp DESC
-    ''')
-    comments = cursor.fetchall()
+    # GET 요청: 로그인한 사용자만 댓글 목록 조회
+    comments = []
+    logged_in = 'user_id' in session
+    if logged_in:
+        cursor.execute('''
+            SELECT Comment.content, Comment.timestamp, User.user_name 
+            FROM Comment 
+            JOIN User ON Comment.user_id = User.id
+            ORDER BY Comment.timestamp DESC
+        ''')
+        comments = cursor.fetchall()
     
-    return render_template('index.html', comments=comments)
+    return render_template('index.html', comments=comments, logged_in=logged_in)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

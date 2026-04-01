@@ -275,6 +275,7 @@
 
 
     4. 프록시
+        - PythonAnywhere가 자동 지원해주는 Nginx 프록시를 적용
 
 
 
@@ -298,31 +299,59 @@
             - git clone을 통해 코드 올리기
             - 가상 환경 설정
             - 코드의 SECRET_KEY 값을 무작위 키 생성 후 서버 시스템이 불러오도록 설정
-              .env 파일을 사용
+              .env 파일을 사용  
 
-
-                
-                
 
 
     2. 프록시
+        - Nginx 자동 적용
+            - PythonAnywhere 은 Nginx를 자동 적용해줌.
+        
+        - 정적 파일 처리
+            - Static files 란에 URL 및 디렉토리 설정으로 자동 적용.
+        
+        - WSGI 파일 수정
+            - WSGI는 Nginx와 Flask를 이어주는 역할을 함.
+              웹 서버 -> HTTP 통신은 잘 알지만, 파이썬 프로그램 실행은 할 줄 모름
+              Flask   -> 파이썬 프로그램 실행은 잘 알지만, 통신은 잘 알지못함.
+              Nginx가 둘 사이를 연결할 수 있도록 WSGI 파일을 수정.
+            
+            - WSGI 파일에서 작성한 항목
+                - 길 찾기
+                    PythonAnywhere 서버가 폴더 위치를 알 수 있게 알려주기
+                - 비밀번호 알려주기
+                    .env 파일에 들어있는 비밀번호를 꺼내서 알려주기
+                - application 라이브러리 호출해서 해당 객체 찾을 수 있게 하기
 
 
     3. 도메인
+        - 가비아 -> .store 도메인 2,200원에 구매
+        - 가비아 -> DNS 관리 창에서 PythonAnywhere 주소를 새로운 레코드로 추가
+        - PythonAnywhere -> 해당 도메인으로 웹앱 설정
 
 
     4. HTTPS
+        - HTTPS 자동 적용
+            - PythonAnywhere 내부 설정에서 HTTPS를 자동 적용해줌.
 
 
 4. 막혔던 부분과 해결 방법
 
     - 로그아웃을 해도 댓글이 계속 보이는 문제 발생.
-        - 
+        - index() 함수가 로그인 여부와 관계없이 댓글을 항상 조회해서 전달하고, index.html리 이 댓글 목록을 항상 표시하도록 되어있음.
+          로그아웃은 세션만 지워주고, 댓글 표시 로직은 로그인/로그아웃 체크가 빠져있음
+          -> app.py의 index() 함수에 로그인 검사 코드를 추가
+            index.html에서 로그인 상태에서만 댓글 목록이 표시되도록 변경
+
     - 서버 배포 과정에서 가상 환경 설정에 오류가 발생함.
         - 가상 환경을 새로 만들고, 필요한 라이브러리를 다시 설치해서 연결하는 것으로 해결.
     
     - .env를 추가한 뒤에 서버에 접속이 안됨.
         - wsgi.py 에 from dotenv import load_dotenv 를 하니 잘됨 ㅎㅎ
+
+    - 도메인 구매 후 새로운 도메인으로 서버를 연결하니 연결이 안됨.
+        - PythonAnywhere에 taehyunjun-project.store를 붙여넣었었음.
+          www.taehyunjun-project.store 를 붙여넣어야함.
 
 
 

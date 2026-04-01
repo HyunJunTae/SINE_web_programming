@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if logged_in %}
 <section class="comment-section">
     <h2>댓글 목록</h2>
     <div class="comments-list">
@@ -20,19 +21,20 @@
 <hr style="margin: 40px 0;">
 
 <section class="comment-form-section">
-    {% if session.user_id %}
-        <h3>댓글 작성하기</h3>
-        <form method="post" class="form-wrapper" style="background:none; padding:0; border:none;">
-            <div class="form-group">
-                <textarea name="content" placeholder="여기에 댓글을 입력하세요..." required></textarea>
-            </div>
-            <button type="submit" class="btn">등록</button>
-        </form>
-    {% else %}
-        <div class="login-prompt">
-            <p>댓글을 작성하려면 로그인이 필요합니다.</p>
-            <a href="{{ url_for('login') }}">로그인하러 가기</a>
+    <h3>댓글 작성하기</h3>
+    <form method="post" class="form-wrapper" style="background:none; padding:0; border:none;">
+        <div class="form-group">
+            <textarea name="content" placeholder="여기에 댓글을 입력하세요..." required></textarea>
         </div>
-    {% endif %}
+        <button type="submit" class="btn">등록</button>
+    </form>
 </section>
+{% else %}
+<section class="comment-section">
+    <div class="login-prompt">
+        <p>로그인 후 댓글을 볼 수 있습니다.</p>
+        <a href="{{ url_for('login') }}">로그인하러 가기</a>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
